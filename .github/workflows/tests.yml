@@ -1,0 +1,77 @@
+name: Tests
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+            - dev
+            - preview
+    pull_request:
+        branches:
+            - main
+            - develop
+            - dev
+            - preview
+
+jobs:
+    unit-tests:
+        name: Unit Tests
+        runs-on: ubuntu-latest
+
+        env:
+            NODE_ENV: test
+            DATABASE_URL: file:./test-unit.db
+            JWT_SECRET: test-secret
+            JWT_EXPIRES_IN: 1d
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Generate Prisma Client
+              run: npx prisma generate
+
+            - name: Run unit tests
+              run: npm run test
+
+    e2e-tests:
+        name: E2E Tests
+        runs-on: ubuntu-latest
+
+        env:
+            NODE_ENV: test
+            DATABASE_URL: file:./test-e2e.db
+            JWT_SECRET: test-secret
+            JWT_EXPIRES_IN: 1d
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Generate Prisma Client
+              run: npx prisma generate
+
+            - name: Prepare test database
+              run: npx prisma db push
+
+            - name: Run e2e tests
+              run: npm run test:e2e

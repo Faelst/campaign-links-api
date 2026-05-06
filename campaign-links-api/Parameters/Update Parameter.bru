@@ -10,12 +10,12 @@ patch {
   auth: bearer
 }
 
-auth:bearer {
-  token: {{accessToken}}
-}
-
 headers {
   Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }
 
 body:json {

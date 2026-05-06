@@ -10,12 +10,12 @@ post {
   auth: bearer
 }
 
-auth:bearer {
-  token: {{accessToken}}
-}
-
 headers {
   Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }
 
 body:json {
@@ -28,7 +28,7 @@ body:json {
     "parameters": [
       {
         "key": "utm_campaign",
-        "value": "black_friday"
+        "value": "black_friday_1"
       }
     ],
     "redirect": {
@@ -41,7 +41,7 @@ body:json {
 
 script:post-response {
   const data = res.getBody();
-
+  
   if (data.id) {
     bru.setEnvVar("linkId", data.id);
   }

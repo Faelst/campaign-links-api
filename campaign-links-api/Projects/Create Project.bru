@@ -10,12 +10,12 @@ post {
   auth: bearer
 }
 
-auth:bearer {
-  token: {{accessToken}}
-}
-
 headers {
   Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }
 
 body:json {
@@ -26,7 +26,7 @@ body:json {
 
 script:post-response {
   const data = res.getBody();
-
+  
   if (data.id) {
     bru.setEnvVar("projectId", data.id);
   }
