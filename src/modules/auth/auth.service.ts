@@ -15,17 +15,21 @@ export class AuthService {
 
   async register(dto: RegisterDto) {
     const user = await this.usersService.create(dto);
+
     return this.buildAuthResponse(user);
   }
 
-  async login(dto: LoginDto) {
-    const user = await this.usersService.findByEmail(dto.email);
+  async login(payload: LoginDto) {
+    const user = await this.usersService.findByEmail(payload.email);
 
     if (!user) {
       throw new UnauthorizedException("Invalid credentials");
     }
 
-    const passwordMatches = await bcrypt.compare(dto.password, user.password);
+    const passwordMatches = await bcrypt.compare(
+      payload.password,
+      user.password,
+    );
 
     if (!passwordMatches) {
       throw new UnauthorizedException("Invalid credentials");
