@@ -1,0 +1,15 @@
+meta {
+  name: List Parameters
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/parameters?page=1&limit=10&search=utm
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

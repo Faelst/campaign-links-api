@@ -1,0 +1,15 @@
+meta {
+  name: Generate Link
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/links/{{linkId}}/generate
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

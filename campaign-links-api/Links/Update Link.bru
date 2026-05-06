@@ -1,0 +1,37 @@
+meta {
+  name: Update Link
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/links/{{linkId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Link principal atualizado",
+    "baseUrl": "https://example.com/promocao",
+    "parameters": [
+      {
+        "key": "utm_medium",
+        "value": "cpc"
+      }
+    ],
+    "redirect": {
+      "targetUrl": "https://landing.example.com/oferta",
+      "paramKey": "redirect",
+      "statusCode": 302
+    }
+  }
+}

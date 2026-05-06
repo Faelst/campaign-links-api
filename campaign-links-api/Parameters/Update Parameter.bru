@@ -1,0 +1,26 @@
+meta {
+  name: Update Parameter
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/parameters/{{parameterId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "key": "utm_source",
+    "value": "instagram"
+  }
+}

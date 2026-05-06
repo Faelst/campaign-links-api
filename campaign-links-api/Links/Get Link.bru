@@ -1,0 +1,15 @@
+meta {
+  name: Get Link
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/links/{{linkId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(cuid())
+  name      String
+  email     String      @unique
+  password  String
+  projects  Project[]
+  params    Parameter[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links       Link[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, name])
+  @@index([userId])
+}
+
+model Link {
+  id             String          @id @default(cuid())
+  name           String
+  baseUrl        String
+  projectId      String
+  project        Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  redirect       RedirectConfig?
+  linkParameters LinkParameter[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([projectId])
+}
+
+model Parameter {
+  id        String          @id @default(cuid())
+  key       String
+  value     String
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links     LinkParameter[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@unique([userId, key, value])
+  @@index([userId, key])
+}
+
+model LinkParameter {
+  linkId      String
+  parameterId String
+  position    Int       @default(0)
+  link        Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  parameter   Parameter @relation(fields: [parameterId], references: [id], onDelete: Cascade)
+
+  @@id([linkId, parameterId])
+  @@index([parameterId])
+}
+
+model RedirectConfig {
+  id         String   @id @default(cuid())
+  targetUrl  String
+  paramKey   String   @default("redirect")
+  statusCode Int      @default(302)
+  linkId     String   @unique
+  link       Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

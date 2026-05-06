@@ -1,0 +1,15 @@
+meta {
+  name: Delete Parameter
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/parameters/{{parameterId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "campaign-links-api",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

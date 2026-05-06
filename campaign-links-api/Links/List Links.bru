@@ -1,0 +1,15 @@
+meta {
+  name: List Links
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/links?page=1&limit=10&projectId={{projectId}}&search=campanha&hasRedirect=true
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
